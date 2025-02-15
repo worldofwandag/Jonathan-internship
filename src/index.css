@@ -212,6 +212,21 @@ New Items
   z-index: 0;
 }
 
+.nft_newitems--loader i {
+  font-size: 10px;
+  color: #ffffff;
+  background: #8364e2;
+  border-radius: 100%;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  padding: 3px;
+  position: absolute;
+  bottom: 4px;
+  right: 5px;
+}
+
+
+
 .skeleton__box {
   width: 100%;
   height: 346px;

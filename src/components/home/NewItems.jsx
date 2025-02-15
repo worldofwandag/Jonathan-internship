@@ -14,7 +14,7 @@ import nextArrow from "../../images/chevron-right-solid.svg";
 const NewItems = () => {
   const [newItems, setNewItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [countdowns, setCountdowns] = useState({}); 
+  const [countdowns, setCountdowns] = useState({});
 
   async function fetchNewItems() {
     setLoading(true);
@@ -23,27 +23,35 @@ const NewItems = () => {
     );
     setNewItems(data);
     setLoading(false);
-    startCountdowns(data);
+    // useCountdown(data);
   }
 
-  function startCountdowns(items) {
-    items.forEach(item => {
-      const expiryDate = new Date(item.expiryDate).getTime();
-      const interval = setInterval(() => {
-        const now = Date.now();
-        const distance = expiryDate - now;
+  function useCountdown(expiryDate) {
+    const [timeLeft, setTimeLeft] = useState("");
+    useEffect(() => {
+      const targetDate = new Date(expiryDate).getTime();
 
+      function updateCountdown() {
+        const now = Date.now();
+        const distance = targetDate - now;
         if (distance < 0) {
-          clearInterval(interval);
-          setCountdowns(prev => ({ ...prev, [item.id]: "" }));
-        } else {
-          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-          setCountdowns(prev => ({ ...prev, [item.id]: `${hours}h ${minutes}m ${seconds}s` }));
+          setTimeLeft("");
+          return;
         }
-      }, 1000);
-    });
+
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        setTimeLeft(`${hours}h ${minutes}m ${seconds}s`);
+        setTimeout(updateCountdown, 1000);
+      }
+      updateCountdown();
+
+      // Cleanup on unmount
+
+      return () => clearTimeout(updateCountdown);
+    }, [expiryDate]);
+    return timeLeft;
   }
 
   function SampleNextArrow(props) {
@@ -179,12 +187,10 @@ const NewItems = () => {
     ],
   };
 
-
-
   useEffect(() => {
     setTimeout(() => {
       fetchNewItems();
-    }, 3000);
+    }, 5000);
   }, []);
 
   return (
@@ -205,8 +211,10 @@ const NewItems = () => {
                   <div className="newitems__loading" key={index}>
                     <div className="nft_newitems--loader">
                       <div className="skeleton__box"></div>
-                      <div className="nft_newitem_pp--loader "></div>
-                      <i className="fa fa-check"></i>
+                      <div className="nft_newitem_pp--loader">
+                        <i className="fa fa-check"></i>
+                      </div>
+
                       <div className="nft_newitems__info--loader">
                         <div className="nft_newitems__topinfo--loader"></div>
                         <div className="nft_newitems__bottominfo--loader"></div>
@@ -240,7 +248,9 @@ const NewItems = () => {
                         <i className="fa fa-check"></i>
                       </Link>
                     </div>
-                    <div className="de_countdown">{countdowns[newItem.id]}</div>
+                    <div className="de_countdown">
+                      {useCountdown(newItem.expiryDate)}
+                    </div>
 
                     <div className="nft__item_wrap">
                       <div className="nft__item_extra">
