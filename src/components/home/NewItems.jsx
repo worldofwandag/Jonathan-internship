@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-// import AuthorImage from "../../images/author_thumbnail.jpg";
-// import nftImage from "../../images/nftImage.jpg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import prevArrow from "../../images/chevron-left-solid.svg";
 import nextArrow from "../../images/chevron-right-solid.svg";
+import UseCountdown from "../UI/UseCountdown";
+import Skeleton from "../UI/Skeleton";
 
 const NewItems = () => {
   const [newItems, setNewItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [countdowns, setCountdowns] = useState({});
 
   async function fetchNewItems() {
     setLoading(true);
@@ -23,36 +20,12 @@ const NewItems = () => {
     );
     setNewItems(data);
     setLoading(false);
-    // useCountdown(data);
   }
 
-  function useCountdown(expiryDate) {
-    const [timeLeft, setTimeLeft] = useState("");
-    useEffect(() => {
-      const targetDate = new Date(expiryDate).getTime();
-
-      function updateCountdown() {
-        const now = Date.now();
-        const distance = targetDate - now;
-        if (distance < 0) {
-          setTimeLeft("");
-          return;
-        }
-
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        setTimeLeft(`${hours}h ${minutes}m ${seconds}s`);
-        setTimeout(updateCountdown, 1000);
-      }
-      updateCountdown();
-
-      // Cleanup on unmount
-
-      return () => clearTimeout(updateCountdown);
-    }, [expiryDate]);
+  const CountdownDisplay = ({ expiryDate }) => {
+    const timeLeft = UseCountdown(expiryDate);
     return timeLeft;
-  }
+  };
 
   function SampleNextArrow(props) {
     const { arrow__custom, style, onClick } = props;
@@ -205,26 +178,77 @@ const NewItems = () => {
           </div>
 
           {loading ? (
-            <>
-              <Slider {...settings}>
-                {new Array(4).fill(0).map((_, index) => (
-                  <div className="newitems__loading" key={index}>
-                    <div className="nft_newitems--loader">
-                      <div className="skeleton__box"></div>
-                      <div className="nft_newitem_pp--loader">
-                        <i className="fa fa-check"></i>
-                      </div>
-
-                      <div className="nft_newitems__info--loader">
-                        <div className="nft_newitems__topinfo--loader"></div>
-                        <div className="nft_newitems__bottominfo--loader"></div>
-                        <div className="nft_newitems__likeinfo--loader"></div>
-                      </div>
+            <Slider {...settings}>
+              {new Array(4).fill(0).map((_, index) => (
+                <div
+                  key={index}
+                  style={{
+                    margin: "0 12px",
+                  }}
+                >
+                  <div className="nft__item--loader">
+                    <div className="author_list_pp">
+                      <div
+                        className="skeleton-box"
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          borderRadius: "50%",
+                          left: "-5px",
+                          background: "#dddedc",
+                        }}
+                      />
+                      <i className="fa fa-check"></i>
+                    </div>
+                    <div className="nft__item_wrap">
+                      <div
+                        className="skeleton-box"
+                        style={{
+                          width: "100%",
+                          height: "350px",
+                        }}
+                      />
+                    </div>
+                    <div
+                      className="nft__item_info"
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <div
+                        className="skeleton-box"
+                        style={{
+                          width: "180px",
+                          height: "30px",
+                          marginTop: "4px",
+                        }}
+                      />
+                      <div
+                        className="skeleton-box"
+                        style={{
+                          width: "100px",
+                          height: "20px",
+                          marginTop: "8px",
+                        }}
+                      />
+                    </div>
+                    <div className="nft__item_like">
+                      <div
+                        className="skeleton-box"
+                        style={{
+                          width: "30px",
+                          height: "15px",
+                          position: "absolute",
+                          right: "0px",
+                          bottom: "-25px",
+                        }}
+                      />
                     </div>
                   </div>
-                ))}
-              </Slider>
-            </>
+                </div>
+              ))}
+            </Slider>
           ) : (
             <Slider {...settings}>
               {newItems.map((newItem) => (
@@ -249,7 +273,7 @@ const NewItems = () => {
                       </Link>
                     </div>
                     <div className="de_countdown">
-                      {useCountdown(newItem.expiryDate)}
+                      <CountdownDisplay expiryDate={newItem.expiryDate} />
                     </div>
 
                     <div className="nft__item_wrap">

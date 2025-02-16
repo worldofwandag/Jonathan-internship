@@ -169,8 +169,15 @@ New Items
 
 */
 
-.nft__item {
-  margin: 0 8px 20px 4px;
+.nft__item--loader {
+  position: relative;
+  padding: 20px 20px 25px 20px;
+  border: solid 1px #ddd;
+  border-radius: 15px;
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+  margin: 0px 4px 25px;
+  background: #ffffff;
 }
 
 .newitems__loading {
