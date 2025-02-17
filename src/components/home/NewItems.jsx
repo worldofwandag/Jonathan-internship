@@ -163,7 +163,7 @@ const NewItems = () => {
   useEffect(() => {
     setTimeout(() => {
       fetchNewItems();
-    }, 5000);
+    }, 100);
   }, []);
 
   return (
@@ -256,7 +256,12 @@ const NewItems = () => {
                   // className="col-lg-3 col-md-6 col-sm-6 col-xs-12"
                   key={newItem.id}
                 >
-                  <div className="nft__item">
+                  <div
+                    className="nft__item"
+                    style={{
+                      margin: "0 4px",
+                    }}
+                  >
                     <div className="author_list_pp">
                       <Link
                         to="/author"
