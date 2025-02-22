@@ -32,46 +32,40 @@ const Landing = () => {
                 </div>
               </h6>
               <div className="spacer-10"></div>
-              <div data-aos="fade-in" data-aos-duration="5000">
-                <div
-                  data-aos="fade-up"
-                  data-aos-delay="400"
-                  data-aos-duration="900"
-                  data-aos-easing="ease-out-quad"
-                  data-aos-anchor-placement="top-center"
-                >
-                  <h1>Create, sell or collect digital items.</h1>
-                </div>
+              <div
+                data-aos="fade-up"
+                data-aos-delay="400"
+                data-aos-duration="900"
+                data-aos-easing="ease-out-quad"
+                data-aos-anchor-placement="top-center"
+              >
+                <h1>Create, sell or collect digital items.</h1>
               </div>
 
-              <div data-aos="fade-in" data-aos-duration="5000">
-                <div
-                  data-aos="fade-up"
-                  data-aos-delay="600"
-                  data-aos-duration="900"
-                  data-aos-easing="ease-out-sine"
-                >
-                  <p className="lead">
-                    Unit of data stored on a digital ledger, called a
-                    blockchain, that certifies a digital asset to be unique and
-                    therefore not interchangeable
-                  </p>
-                </div>
+              <div
+                data-aos="fade-up"
+                data-aos-delay="600"
+                data-aos-duration="900"
+                data-aos-easing="ease-out-sine"
+              >
+                <p className="lead">
+                  Unit of data stored on a digital ledger, called a blockchain,
+                  that certifies a digital asset to be unique and therefore not
+                  interchangeable
+                </p>
               </div>
 
               <div className="spacer-10"></div>
 
-              <div data-aos="fade-in" data-aos-duration="5000">
-                <div
-                  data-aos="fade-up"
-                  data-aos-delay="750"
-                  data-aos-duration="900"
-                  data-aos-easing="ease-out-sine"
-                >
-                  <Link className="btn-main lead" to="/explore">
-                    Explore
-                  </Link>
-                </div>
+              <div
+                data-aos="fade-up"
+                data-aos-delay="750"
+                data-aos-duration="900"
+                data-aos-easing="ease-out-sine"
+              >
+                <Link className="btn-main lead" to="/explore">
+                  Explore
+                </Link>
               </div>
 
               <div className="mb-sm-30"></div>
